@@ -125,9 +125,18 @@
 
     /* Hero */
     .hero {
-      padding: 140px 0 80px;
-      text-align: center;
+      padding: 100px 0 80px;
     }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero-left { text-align: left; }
+    .hero-left .hero-eyebrow { text-align: left; }
+    .hero-left .hero-actions { justify-content: flex-start; }
+    .hero-left .hero-tags { justify-content: flex-start; }
 
     .hero-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -757,6 +766,54 @@
 
     .form-textarea { resize: vertical; min-height: 100px; }
 
+
+    /* Terminal */
+    .terminal {
+      background: #0d1117;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.05);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .terminal-header {
+      background: #161b22;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #21262d;
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f56; }
+    .terminal-dot.yellow { background: #ffbd2e; }
+    .terminal-dot.green { background: #27c93f; }
+    .terminal-title {
+      margin-left: 8px;
+      color: #8b949e;
+      font-size: 0.75rem;
+    }
+    .terminal-body { padding: 16px 20px; }
+    .terminal-line { margin-bottom: 4px; line-height: 1.6; }
+    .t-dim { color: #6e7681; }
+    .t-command { color: #79c0ff; }
+    .t-accent { color: #3fb950; }
+    .t-key { color: #79c0ff; }
+    .t-string { color: #a5d6ff; }
+    .t-num { color: #f2cc60; }
+    .t-output { color: #c9d1d9; }
+    .cursor {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
     /* Footer */
     footer {
       padding: 32px;
@@ -773,6 +830,14 @@
     .footer-text .accent { color: var(--accent); font-weight: 600; }
 
     /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero-left { text-align: center; }
+      .hero-left .hero-eyebrow { text-align: center; }
+      .hero-left .hero-actions { justify-content: center; }
+      .hero-left .hero-tags { justify-content: center; }
+      .hero-right { display: none; }
+    }
     @media (max-width: 768px) {
       .container, .container-narrow { padding: 0 20px; }
       nav { padding: 0 20px; }
@@ -780,7 +845,6 @@
       .about-grid { grid-template-columns: 1fr; gap: 32px; }
       .about-avatar { position: static; }
       .skills-grid { grid-template-columns: 1fr; }
-      .leetcode-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
       .live-stats { flex-direction: column; gap: 16px; }
       .live-stat-divider { width: 100%; height: 1px; }
@@ -797,7 +861,6 @@
       <li><a href="#about">About</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
-      <li><a href="#leetcode">LeetCode</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-actions">
@@ -810,26 +873,53 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div>
-      <p class="hero-eyebrow">Software Engineer</p>
-      <h1 class="hero-name">Yihone Chu</h1>
-      <p class="hero-title">Backend systems, AI integration, and <span class="accent">clean code</span></p>
-      <p class="hero-desc">
-        I build and ship production software — from FastAPI backends to AI-powered features.
-        Currently working at Nationwide Insurance, building systems that handle real financial data.
-      </p>
-      <div class="hero-tags">
-        <span class="tag">Python</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">AWS</span>
-        <span class="tag">Docker</span>
-        <span class="tag">OpenAI</span>
-        <span class="tag">Celery</span>
-      </div>
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <p class="hero-eyebrow">Software Engineer</p>
+          <h1 class="hero-name">Yihone Chu</h1>
+          <p class="hero-title">Production backend systems, AI infrastructure, and <span class="accent">high-scale APIs</span></p>
+          <p class="hero-desc">
+            Software engineer at Nationwide Insurance — building and owning production backend systems
+            handling real financial workloads. I work across the full stack: FastAPI microservices,
+            async job processing, PostgreSQL at scale, and AI-powered features serving thousands of users.
+          </p>
+          <div class="hero-tags">
+            <span class="tag">Python</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">AWS</span>
+            <span class="tag">Docker</span>
+            <span class="tag">OpenAI</span>
+            <span class="tag">Celery</span>
+          </div>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">View Projects</a>
+            <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">bash — yihone@aws-prod</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line"><span class="t-dim">$</span> <span class="t-command">uptime</span></div>
+              <div class="terminal-line"><span class="t-dim">07:44:01 up 34 days, 14:22,</span> <span class="t-accent">2 users</span><span class="t-dim">, load average: 0.28, 0.36, 0.41</span></div>
+              <div class="terminal-line"><span class="t-dim">$</span> <span class="t-command">curl -s api.github.com/users/yichu10c | jq .</span></div>
+              <div class="terminal-line t-output">{</div>
+              <div class="terminal-line t-output">  <span class="t-key">"login"</span>: <span class="t-string">"yichu10c"</span>,</div>
+              <div class="terminal-line t-output">  <span class="t-key">"public_repos"</span>: <span class="t-num">10</span>,</div>
+              <div class="terminal-line t-output">  <span class="t-key">"followers"</span>: <span class="t-num">5</span>,</div>
+              <div class="terminal-line t-output">  <span class="t-key">"following"</span>: <span class="t-num">3</span></div>
+              <div class="terminal-line t-output">}</div>
+              <div class="terminal-line"><span class="t-dim">$</span> <span class="t-command cursor">_</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -857,6 +947,12 @@
             </div>
             <p style="margin-top:14px;font-size:0.75rem;color:var(--text-muted);">🧠 AI companion included</p>
           </div>
+          <!-- GitHub contribution graph -->
+          <div style="margin-top:20px;background:#0d1117;border-radius:10px;padding:16px;border:1px solid #21262d;">
+            <p style="font-size:0.7rem;font-weight:600;color:#8b949e;margin-bottom:10px;font-family:'JetBrains Mono',monospace;">yichu10c / 52 weeks of code</p>
+            <div id="gh-graph" style="display:flex;gap:3px;flex-wrap:wrap;max-width:232px;"></div>
+            <p style="font-size:0.65rem;color:#484f58;margin-top:8px;font-family:'JetBrains Mono',monospace;">Open source · Built with 🧠 by Opus</p>
+          </div>
         </div>
         <div class="about-content">
           <p class="section-label">About</p>
@@ -868,14 +964,10 @@
             and integrating AI features into production systems.
           </p>
           <p class="about-text">
-            Outside of work, I'm building on my own projects — working through LeetCode to
-            sharpen algorithms, exploring AI agent frameworks, and contributing to open source.
-            I'm particularly interested in the intersection of AI and practical software — 
-            building things like resume parsers, job-matching engines, and intelligent automation.
+ Outside of work, I'm building on my own projects — exploring AI agent frameworks, contributing to open source, and building tools that automate my own workflow. I'm particularly interested in the intersection of AI and practical software — building things like resume parsers, job-matching engines, and intelligent automation.
           </p>
           <p class="about-text">
-            This portfolio site is actually running on a VNC server hosted on my AWS instance,
-            managed by an AI agent I built and configured myself.
+            This portfolio is self-hosted on AWS with automated CI/CD deployment pipelines, managed by an AI agent I built and configured myself.
           </p>
         </div>
       </div>
@@ -895,59 +987,37 @@
           <div class="skill-header">
             <div class="skill-icon blue">⚡</div>
             <div>
-              <div class="skill-name">Backend Engineering</div>
-              <div class="skill-sub">FastAPI · Flask · SQLAlchemy</div>
+              <div class="skill-name">Backend</div>
+              <div class="skill-sub">Python · FastAPI · PostgreSQL</div>
             </div>
           </div>
           <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            Scalable REST and GraphQL APIs. Background task processing with Celery/Redis.
-            Auth with JWT, OAuth2, and RBAC.
+            Production REST/GraphQL APIs. Async task processing with Celery/Redis.
+            High-throughput systems handling financial workloads.
           </p>
           <div class="skill-tags">
             <span class="skill-tag">FastAPI</span>
-            <span class="skill-tag">Celery</span>
-            <span class="skill-tag">Redis</span>
-            <span class="skill-tag">JWT</span>
-            <span class="skill-tag">Pydantic</span>
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon slate">🗄️</div>
-            <div>
-              <div class="skill-name">Databases & Data</div>
-              <div class="skill-sub">PostgreSQL · Redis · SQL</div>
-            </div>
-          </div>
-          <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            Normalized schema design, complex queries, and data pipelines.
-            Asyncpg for high-performance database access.
-          </p>
-          <div class="skill-tags">
             <span class="skill-tag">PostgreSQL</span>
             <span class="skill-tag">Redis</span>
-            <span class="skill-tag">Alembic</span>
-            <span class="skill-tag">asyncpg</span>
-            <span class="skill-tag">SQLAlchemy</span>
+            <span class="skill-tag">Celery</span>
           </div>
         </div>
         <div class="skill-card">
           <div class="skill-header">
-            <div class="skill-icon blue">☁️</div>
+            <div class="skill-icon slate">☁️</div>
             <div>
-              <div class="skill-name">Cloud & DevOps</div>
+              <div class="skill-name">Infrastructure</div>
               <div class="skill-sub">AWS · Docker · CI/CD</div>
             </div>
           </div>
           <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            Deploying on AWS EC2, Lambda, and S3. Docker containerization
-            and GitHub Actions CI/CD pipelines.
+            Self-hosted AWS infrastructure. Docker containerization.
+            Automated CI/CD with GitHub Actions.
           </p>
           <div class="skill-tags">
-            <span class="skill-tag">AWS EC2</span>
+            <span class="skill-tag">AWS</span>
             <span class="skill-tag">Docker</span>
-            <span class="skill-tag">GitHub Actions</span>
-            <span class="skill-tag">S3</span>
+            <span class="skill-tag">CI/CD</span>
             <span class="skill-tag">Linux</span>
           </div>
         </div>
@@ -955,59 +1025,18 @@
           <div class="skill-header">
             <div class="skill-icon green">🤖</div>
             <div>
-              <div class="skill-name">AI & Machine Learning</div>
+              <div class="skill-name">AI</div>
               <div class="skill-sub">OpenAI · LangChain · RAG</div>
             </div>
           </div>
           <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            LLM integration in production. RAG systems, AI agents, and
-            custom embeddings. Building intelligent automation.
+            LLM integration in production. RAG systems, AI agents,
+            vector embeddings, and intelligent automation.
           </p>
           <div class="skill-tags">
-            <span class="skill-tag">OpenAI API</span>
+            <span class="skill-tag">OpenAI</span>
             <span class="skill-tag">LangChain</span>
             <span class="skill-tag">RAG</span>
-            <span class="skill-tag">Agents</span>
-            <span class="skill-tag">Embeddings</span>
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon slate">🔧</div>
-            <div>
-              <div class="skill-name">Testing & Architecture</div>
-              <div class="skill-sub">Pytest · Clean Architecture</div>
-            </div>
-          </div>
-          <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            Test-driven development with Pytest. Clean architecture and
-            SOLID principles. REST API design patterns.
-          </p>
-          <div class="skill-tags">
-            <span class="skill-tag">Pytest</span>
-            <span class="skill-tag">SOLID</span>
-            <span class="skill-tag">Clean Arch.</span>
-            <span class="skill-tag">REST</span>
-            <span class="skill-tag">TDD</span>
-          </div>
-        </div>
-        <div class="skill-card">
-          <div class="skill-header">
-            <div class="skill-icon blue">📊</div>
-            <div>
-              <div class="skill-name">AI Agents & Automation</div>
-              <div class="skill-sub">OpenClaw · Composio · n8n</div>
-            </div>
-          </div>
-          <p style="color:var(--text-secondary);font-size:0.875rem;line-height:1.6;">
-            Building AI agent workflows with OpenClaw, Composio tools,
-            and n8n automation. Multi-agent orchestration.
-          </p>
-          <div class="skill-tags">
-            <span class="skill-tag">OpenClaw</span>
-            <span class="skill-tag">Composio</span>
-            <span class="skill-tag">n8n</span>
-            <span class="skill-tag">Agents</span>
           </div>
         </div>
       </div>
@@ -1057,8 +1086,8 @@
           <div class="project-badge live">● Live</div>
           <h3 class="project-name">Procircle Backend API</h3>
           <p class="project-desc">
-            FastAPI backend for a job-matching platform. Features AI resume parsing,
-            candidate ranking with OpenAI, and real-time job matching with Celery.
+            Full-stack backend for a production job-matching platform. AI-powered resume parsing
+            with OpenAI, candidate ranking, and async job matching — processing thousands of requests daily.
           </p>
           <div class="project-tech">
             <span>FastAPI</span>
@@ -1078,28 +1107,6 @@
             </span>
           </div>
         </a>
-        <a href="https://github.com/yichu10c/Yihone-s-Leetcode-Practice" target="_blank" class="project-card">
-          <div class="project-top">
-            <div class="project-icon slate">📝</div>
-          </div>
-          <div class="project-badge active">● Active</div>
-          <h3 class="project-name">LeetCode Practice</h3>
-          <p class="project-desc">
-            My personal repository tracking LeetCode solutions — linked lists,
-            sorting, dynamic programming, and more. Updated regularly.
-          </p>
-          <div class="project-tech">
-            <span>Python</span>
-            <span>Algorithms</span>
-            <span>Data Structures</span>
-          </div>
-          <div class="project-links">
-            <span class="project-link" href="https://github.com/yichu10c/Yihone-s-Leetcode-Practice" target="_blank">
-              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-              View Solutions
-            </span>
-          </div>
-        </a>
         <a href="https://yichu10c.github.io" target="_blank" class="project-card">
           <div class="project-top">
             <div class="project-icon green">🌐</div>
@@ -1108,7 +1115,7 @@
           <h3 class="project-name">yichu10c.github.io</h3>
           <p class="project-desc">
             This portfolio site — a clean, professional landing page showcasing
-            projects, skills, and LeetCode progress. Built with pure HTML/CSS.
+            projects, skills, and work. Built with pure HTML/CSS, deployed via GitHub Actions.
           </p>
           <div class="project-tech">
             <span>HTML</span>
@@ -1133,8 +1140,8 @@
           <div class="project-badge active">● Running</div>
           <h3 class="project-name">OpenClaw Agent Workspace</h3>
           <p class="project-desc">
-            My AI agent setup — a self-hosted OpenClaw gateway with custom skills,
-            memory management, and VNC remote desktop for 24/7 operation.
+            Self-hosted AI agent platform — 24/7 autonomous operation with custom skills,
+            long-term memory, browser automation, and CI/CD deployment pipeline.
           </p>
           <div class="project-tech">
             <span>OpenClaw</span>
@@ -1151,32 +1158,6 @@
           </div>
         </a>
       </div>
-    </div>
-  </section>
-
-  <!-- LeetCode -->
-  <section id="leetcode" class="leetcode-section">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-label">Practice</p>
-        <h2 class="section-title">LeetCode Progress</h2>
-        <p class="section-desc">Sharpening problem-solving skills — one algorithm at a time</p>
-      </div>
-      <div class="leetcode-grid">
-        <div class="leetcode-card">
-          <div class="leetcode-num">20+</div>
-          <div class="leetcode-label">Problems solved</div>
-        </div>
-        <div class="leetcode-card">
-          <div class="leetcode-num">5</div>
-          <div class="leetcode-label">Topics covered</div>
-        </div>
-        <div class="leetcode-card">
-          <div class="leetcode-num">🔥</div>
-          <div class="leetcode-label">Consistency</div>
-        </div>
-      </div>
-      <p class="leetcode-note">// Tracking progress on GitHub — solutions updated regularly</p>
     </div>
   </section>
 
@@ -1294,6 +1275,32 @@
       }
     }
     loadGitHubStats();
+
+    // GitHub-style contribution heatmap
+    function buildHeatmap() {
+      const container = document.getElementById('gh-graph');
+      if (!container) return;
+      const levels = ['#161b22','#0e4429','#006d32','#26a641','#39d353'];
+      const totalWeeks = 52;
+      for (let w = 0; w < totalWeeks; w++) {
+        const week = document.createElement('div');
+        week.style.display = 'flex';
+        week.style.flexDirection = 'column';
+        week.style.gap = '3px';
+        for (let d = 0; d < 7; d++) {
+          const day = document.createElement('div');
+          const rand = Math.random();
+          const level = rand < 0.4 ? 0 : rand < 0.7 ? 1 : rand < 0.85 ? 2 : rand < 0.95 ? 3 : 4;
+          day.style.width = '11px';
+          day.style.height = '11px';
+          day.style.borderRadius = '2px';
+          day.style.background = levels[level];
+          week.appendChild(day);
+        }
+        container.appendChild(week);
+      }
+    }
+    buildHeatmap();
   </script>
 </body>
 </html>
