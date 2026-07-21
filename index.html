@@ -925,6 +925,37 @@
     </div>
   </section>
 
+  <!-- Chat with Yihone -->
+  <section id="chat" style="padding: 48px 0 64px; border-bottom: 1px solid var(--border);">
+    <div class="container-narrow">
+      <div style="text-align:center; margin-bottom:28px;">
+        <p class="section-label">Try it</p>
+        <h2 style="font-size:1.6rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px;">Chat with Yihone's AI</h2>
+        <p style="color:var(--text-secondary);font-size:0.95rem;">Ask me anything — projects, skills, experience, how to reach him</p>
+      </div>
+      <div id="chat-container" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-md);">
+        <div id="chat-messages" style="height:220px;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;color:white;flex-shrink:0;">Y</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:0.875rem;color:var(--text-secondary);max-width:85%;line-height:1.5;">
+              Hi! Ask me anything about Yihone — his work, projects, skills, or how to get in touch.
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center;background:var(--bg-subtle);">
+          <input type="text" id="chat-input" placeholder="e.g. What projects is Yihone working on?" onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendMessage()"
+            style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-family:inherit;font-size:0.875rem;outline:none;color:var(--text);transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+          <button onclick="sendMessage()" id="chat-send"
+            style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:white;font-weight:600;font-size:0.875rem;cursor:pointer;transition:background 0.2s;white-space:nowrap;">
+            Send
+          </button>
+        </div>
+      </div>
+      <p id="chat-error" style="display:none;text-align:center;color:#dc2626;font-size:0.8rem;margin-top:10px;"></p>
+    </div>
+  </section>
+
   <!-- About -->
   <section id="about" class="about-section">
     <div class="container">
@@ -1323,6 +1354,53 @@
       }
     }
     buildHeatmap();
+  </script>
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const messages = document.getElementById('chat-messages');
+      const errorEl = document.getElementById('chat-error');
+      const sendBtn = document.getElementById('chat-send');
+      const question = input.value.trim();
+      if (!question) return;
+
+      errorEl.style.display = 'none';
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Thinking…';
+
+      messages.innerHTML += `
+        <div style="display:flex;gap:10px;align-items:flex-start;justify-content:flex-end;">
+          <div style="background:var(--accent);color:white;border-radius:12px 12px 4px 12px;padding:10px 14px;font-size:0.875rem;max-width:75%;line-height:1.5;">${escHtml(question)}</div>
+        </div>`;
+      input.value = '';
+      messages.scrollTop = messages.scrollHeight;
+
+      try {
+        const res = await fetch('http://34.203.31.140:7860/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+        const answer = data.answer || 'Sorry, something went wrong.';
+        messages.innerHTML += `
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#60a5fa);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;color:white;flex-shrink:0;">Y</div>
+            <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:0.875rem;color:var(--text-secondary);max-width:85%;line-height:1.5;">${escHtml(answer)}</div>
+          </div>`;
+        messages.scrollTop = messages.scrollHeight;
+      } catch (e) {
+        errorEl.textContent = 'Could not reach the chat server — make sure the backend is running.';
+        errorEl.style.display = 'block';
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+      }
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
   </script>
 </body>
 </html>
