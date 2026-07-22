@@ -13,7 +13,7 @@ import httpx
 
 
 # ── Config ──────────────────────────────────────────────────────────────────
-KB_DIR = Path(__file__).parent          # /home/ubuntu/yichu10c.github.io/kb/
+WORKSPACE_KB = Path("/home/ubuntu/openclaw-workspace/kb")
 MINIMAX_API_KEY = os.environ.get("MINIMAX_API_KEY", "")
 MINIMAX_BASE_URL = "https://api.minimax.io/v1"
 MINIMAX_MODEL = "MiniMax-Text-01"
@@ -33,7 +33,7 @@ app.add_middleware(
 def load_kb() -> str:
     """Concatenate all .md files in the kb/ folder into one context string."""
     parts = []
-    for md_file in sorted(KB_DIR.glob("*.md")):
+    for md_file in sorted(WORKSPACE_KB.glob("*.md")):
         parts.append(f"## {md_file.stem.replace('_', ' ').title()}\n\n{md_file.read_text()}")
     return "\n\n---\n\n".join(parts)
 
@@ -165,7 +165,7 @@ async def chat(req: ChatRequest):
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "kb_files": len(list(KB_DIR.glob("*.md")))}
+    return {"status": "ok", "kb_files": len(list(WORKSPACE_KB.glob("*.md")))}
 
 
 if __name__ == "__main__":
