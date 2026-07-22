@@ -8,6 +8,7 @@ User=ubuntu
 WorkingDirectory=/home/ubuntu/yichu10c.github.io/kb
 ExecStart=/home/ubuntu/.hermes/.venv/bin/python3 chat_server.py
 Restart=always
+RestartSec=3
 EnvironmentFile=/home/ubuntu/.hermes/.env
 
 [Install]

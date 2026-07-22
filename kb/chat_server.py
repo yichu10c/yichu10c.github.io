@@ -40,11 +40,46 @@ def load_kb() -> str:
 
 SYSTEM_PROMPT = (
     "You are a friendly, knowledgeable AI assistant representing Yihone Chu. "
-    "You answer questions about Yihone — his work, skills, projects, experience, and background — "
-    "using only the knowledge base provided below. Be concise but personable. "
-    "If you don't know something, say you don't know rather than making it up.\n\n"
+    "You ONLY answer questions about Yihone — his work, skills, projects, experience, education, and background. "
+    "You also help visitors get in touch with him. "
+    "If a question is unrelated to Yihone — math problems, general knowledge, current events, or anything else — "
+    "politely decline and offer to help with something about Yihone instead. "
+    "Keep responses concise and personable.\n\n"
     f"## Knowledge Base\n\n{load_kb()}"
 )
+
+
+def is_related_to_yihone(question: str) -> bool:
+    """Block clearly off-topic questions; let everything else through to the model."""
+    q = question.lower().strip()
+
+    # Hard block: math, calculators, weather, definitions, unrelated general knowledge
+    off_topic = [
+        "1+1", "2+2", "3+3", "what's ", "calculate", "math",
+        "weather", "news", "bitcoin", "stock price", "sports score",
+        "recipe", "translate ", "convert ", "capital of", "who is ",
+        "what year", "what country", "define ", "meaning of",
+    ]
+    if any(p in q for p in off_topic):
+        return False
+
+    # Allow if it mentions Yihone or portfolio-adjacent topics
+    allow = ["yihone", "yichu", "your portfolio", "your website",
+             "about you", "you built", "you work", "your projects",
+             "your skills", "your experience", "contact you",
+             "reach you", "get in touch", "your background"]
+    if any(p in q for p in allow):
+        return True
+
+    # Default: let the model decide (generous — better UX than blocking valid questions)
+    return True
+
+
+DECLINE_RESPONSES = [
+    "I'm here to answer questions about Yihone! Try asking about his projects, skills, or experience instead.",
+    "This chat is focused on Yihone — feel free to ask about his work, background, or how to reach him!",
+    "I'm only able to help with questions about Yihone. Want to know about his projects or experience?",
+]
 
 
 # ── Request / Response models ────────────────────────────────────────────────
@@ -64,6 +99,10 @@ async def chat(req: ChatRequest):
 
     if not req.question.strip():
         raise HTTPException(status_code=400, detail="Question cannot be empty")
+
+    if not is_related_to_yihone(req.question):
+        import random
+        return ChatResponse(answer=random.choice(DECLINE_RESPONSES))
 
     messages = [
         {"role": "system", "content": SYSTEM_PROMPT},
