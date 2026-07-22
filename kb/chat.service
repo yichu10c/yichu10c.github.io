@@ -5,6 +5,8 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
+# NOTE: chat_server.py reads its KB from /home/ubuntu/openclaw-workspace/kb/
+# The KB content lives in the openclaw-workspace repo, not here.
 WorkingDirectory=/home/ubuntu/yichu10c.github.io/kb
 ExecStart=/home/ubuntu/.hermes/.venv/bin/python3 chat_server.py
 Restart=always
